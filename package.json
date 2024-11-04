@@ -16,7 +16,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test-ct": "playwright test -c playwright-ct.config.js"
+    "test-ct": "playwright test -c playwright-ct.config.js",
+    "test-ct:docker:build": "docker build -t contents-screenshot-tests -f Dockerfile-screenshot-tests.Dockerfile .",
+    "test-ct:docker:run": "docker run --mount type=bind,src=\"$(pwd)/__snapshots__\",target=/app/__snapshots__ --mount type=bind,src=\"$(pwd)/src\",target=/app/src --mount type=bind,src=\"$(pwd)/test-results\",target=/app/test-results contents-screenshot-tests",
+    "test-ct:docker:check": "npm run test-ct:docker:run",
+    "test-ct:docker:regenerate": "npm run test-ct:docker:run -- --update-snapshots"
   },
   "eslintConfig": {
     "extends": [

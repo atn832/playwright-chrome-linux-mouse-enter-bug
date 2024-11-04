@@ -1,0 +1,7 @@
+# TODO(Tuan): 지금 Dockerfile와 Dockerfile-screenshot-tests.Dockerfile이 둘 다 공용
+# .dockerignore 쓰니까 Dockerfile-screenshot-tests.Dockerfile이 src/ 필요 없어도 복사하고
+# 있어요. Dockerfile-screenshot-tests.Dockerfile.dockerignore 따로 만들면 src/ 복원해요.
+
+# src/
+playwright/.cache
+node_modules/
