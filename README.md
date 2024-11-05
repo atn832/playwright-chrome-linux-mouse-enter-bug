@@ -1,6 +1,17 @@
-# Getting Started with Create React App
+# Reproducing bug: in Chromium Linux, mouseenter gets triggered at pixel (0, 0)
+
+If you check the screenshots in `__snapshots__`, you'll see that in Linux, for Chromium only, `isHovered` is `true`, while it is `false` for Webkit and Firefox. I've verified that this happens in Playwright 1.48.2, but did not happen in 1.45.3.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Steps to reproduce
+
+You can check out the snapshots in `__snaphots__`
+
+1. Delete `__snapshots__`.
+1. Run `test-ct:docker:build` to build the Docker container.
+1. Run `test-ct:docker:run` to regenerate the screenshots or compare actual screenshots with the repository's.
+1. Observe that for Chromium only, `onPointerEnter` is called, and `isHovered` is `true` as a result, while it is `false` for Webkit and Firefox.
 
 ## Available Scripts
 
@@ -44,27 +55,3 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

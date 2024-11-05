@@ -3,21 +3,16 @@ import { useState } from 'react';
 function App() {
   const [isHovered, setIsHovered] = useState(false);
   return (
-    <div
+    <h1
       onPointerEnter={() => {
         setIsHovered(true);
-        console.log('enter');
       }}
       onPointerLeave={() => {
         setIsHovered(false);
-        console.log('leave');
       }}
     >
-      <h1>
-        ishovered?
-        { isHovered? 'true':'false' }
-      </h1>
-    </div>
+      isHovered. Expected: false. Actual: {isHovered ? 'true' : 'false'}
+    </h1>
   );
 }
 
