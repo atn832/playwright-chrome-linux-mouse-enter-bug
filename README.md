@@ -1,57 +1,26 @@
-# Reproducing bug: in Chromium Linux, mouseenter gets triggered at pixel (0, 0)
+# Reproducing bug: in Chromium Linux, pointerenter gets triggered at pixel (0, 0)
 
-If you check the screenshots in `__snapshots__`, you'll see that in Linux, for Chromium only, `isHovered` is `true`, while it is `false` for Webkit and Firefox. I've verified that this happens in Playwright 1.48.2, but did not happen in 1.45.3.
+When running Playwright-ct tests on Chromium Linux, `pointerenter` gets triggered at pixel (0, 0).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [Chromium screenshot](https://github.com/atn832/playwright-chrome-linux-mouse-enter-bug/blob/main/__snapshots__/src/App.spec.js-snapshots/mouse-enter-1-chromium-linux.png) says `isHovered: true` instead of `false`.
+- [Firefox screenshot](https://github.com/atn832/playwright-chrome-linux-mouse-enter-bug/blob/main/__snapshots__/src/App.spec.js-snapshots/mouse-enter-1-firefox-linux.png) says `isHovered: false` as expected.
+- [Webkit screenshot](https://github.com/atn832/playwright-chrome-linux-mouse-enter-bug/blob/main/__snapshots__/src/App.spec.js-snapshots/mouse-enter-1-webkit-linux.png) says `isHovered: false` as expected.
 
-## Steps to reproduce
+I've verified that this happens in Playwright 1.48.2 and 1.48.0, but did not happen in 1.47.2. Also, the bug happens with both `pointerenter` and `mouseenter`.
 
-You can check out the snapshots in `__snaphots__`
+## How I made the example
+
+The main commit is https://github.com/atn832/playwright-chrome-linux-mouse-enter-bug/commit/582d92bd608d5db91914f5b790d2cd08134eaae5:
+
+- Created an empty React app with [Create React App](https://github.com/facebook/create-react-app).
+- Installed Playwright ct by running `npm init playwright@latest -- --ct`. https://playwright.dev/docs/test-components
+- In playwright/index.html, I added css so that an `<h1>` would appear at the very top left corner. https://github.com/atn832/playwright-chrome-linux-mouse-enter-bug/blob/582d92bd608d5db91914f5b790d2cd08134eaae5/playwright/index.html#L7-L11
+- `Apps.spec.js` renders `<App />`, which then renders an `<h1>`  with a `pointerenter` listener. If `<App>` captures a pointerenter, its `isHovered` state turns to true.
+
+## Run the test yourself
 
 1. Delete `__snapshots__`.
 1. Run `test-ct:docker:build` to build the Docker container.
 1. Run `test-ct:docker:run` to regenerate the screenshots or compare actual screenshots with the repository's.
 1. Observe that for Chromium only, `onPointerEnter` is called, and `isHovered` is `true` as a result, while it is `false` for Webkit and Firefox.
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. To check on an older version of Playwright, change the version for @playwright/experimental-ct-react in package.json and in the Dockerfile.
